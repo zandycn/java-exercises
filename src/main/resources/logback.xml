@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" debug="true">
+    <property name="PATTERN"
+        value="%magenta(%X{UUID}) | %d{yyyy-MM-dd HH:mm:ss.SSS} | %highlight(%-5level) | %green(%thread) | %cyan(%logger{26}) | %msg%n"/>
+
+    <jmxConfigurator/>
+
+    <!-- 控制台日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
