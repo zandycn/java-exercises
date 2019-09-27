@@ -73,30 +73,30 @@ public class DLSimulate1 {
      * <pre>
      *     "#" 后的数字表示 当前 thread 的 ID，即 {@link java.lang.Thread#getId()}
      *     prio 表示线程的权重，可以参考 Thread.java 类注释，默认值 {@link java.lang.Thread#NORM_PRIORITY}
-     *     tid
+     *     tid - Java memory address of its internal Thread control structure
      *     nid - `top -Hp [pid]` 列表中某一行的 PID(我理解是操作系统给该线程分配的 process ID) 转成16进制
-     *           疑问 `top -Hp [pid]` 不显示 阻塞的 线程?
+     *           疑问 `top -Hp [pid]` 不显示 阻塞的 线程? 答: 是显示的！！！
      *
      *     address:
      *       0x0000700010816000  "transfer-t-b2a" 线程栈的起始地址?
      *       0x0000700010713000  "transfer-t-a2b" 线程栈的起始地址?
      *       0x00007fe9180116a8
      *       0x00007fe91800ee18
-     *       0x000000076ac1fb18  Account a 引用指向的 cn.zandy.je.jdk.concurrent.deadlock.DLSimulate1$Account 对象地址?
-     *       0x000000076ac1fb28  Account b 引用指向的 cn.zandy.je.jdk.concurrent.deadlock.DLSimulate1$Account 对象地址?
+     *       0x000000076ac1fb18  锁对象 cn.zandy.je.jdk.concurrent.deadlock.DLSimulate1$Account 地址(Account a指向)?
+     *       0x000000076ac1fb28  锁对象 cn.zandy.je.jdk.concurrent.deadlock.DLSimulate1$Account 地址(Account b指向)?
      * </pre>
      *
      * <pre>
      *     延伸: Linux 下进程和线程都会有自己的ID, 这个ID叫做PID, PID不是特指进程ID, 线程ID也可以叫做PID.
-     *       - getpid() 获取进程ID
-     *       - pthread_self() 获取进程内线程的唯一标识ID，这个ID在某一进程中是唯一的，在不同的进程中创建的线程可能出现ID值相同的情况
-     *       - syscall(SYS_gettid) 获取操作系统中唯一的线程ID
+     *       - getpid() : 获取进程ID
+     *       - pthread_self() : 获取进程内线程的唯一标识ID，这个ID在某一进程中是唯一的，在不同的进程中创建的线程可能出现ID值相同的情况
+     *       - syscall(SYS_gettid) : 获取操作系统中唯一的线程ID
      *
      *     查看进程或线程常用的命令(以下 [pid] 指进程PID):
      *       - top -Hp [pid]
-     *       - ps p <pid> -L -o pcpu,pmem,ppid,pid,tid,tname,time,stat,psr,cmd | sort -rn -k1
-     *       - jstack -l [pid]    (仅限于 java 环境)
-     *       - ps -eLf            (e显示全部进程, L显示全部线程, f全格式输出)
+     *       - ps p [pid] -L -o pcpu,pmem,ppid,pid,tid,tname,time,stat,psr,cmd | sort -rn -k1
+     *       - jstack -l [pid]           (仅限于 java 环境)
+     *       - ps -eLf | grep [pid]      (e显示全部进程, L显示全部线程, f全格式输出)
      *       - pstree -p [pid]
      * </pre>
      */
