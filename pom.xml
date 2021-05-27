@@ -94,6 +94,12 @@
             <artifactId>jboss-logging</artifactId>
             <version>3.3.0.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.9</version>
+        </dependency>
     </dependencies>
 
     <build>
