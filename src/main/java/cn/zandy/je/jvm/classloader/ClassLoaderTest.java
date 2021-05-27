@@ -1,4 +1,4 @@
-package cn.zandy.je.jdk.classloader;
+package cn.zandy.je.jvm.classloader;
 
 import java.io.IOException;
 import java.io.InputStream;

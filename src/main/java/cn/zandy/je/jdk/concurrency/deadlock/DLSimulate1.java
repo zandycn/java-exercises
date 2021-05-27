@@ -1,4 +1,4 @@
-package cn.zandy.je.jdk.concurrent.deadlock;
+package cn.zandy.je.jdk.concurrency.deadlock;
 
 import java.util.concurrent.CountDownLatch;
 
