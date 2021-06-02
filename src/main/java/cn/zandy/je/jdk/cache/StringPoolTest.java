@@ -17,6 +17,10 @@ package cn.zandy.je.jdk.cache;
  * ·      - 3.2.如果没有，将字符串对象先加入到 StringTable 中，然后返回该对象
  * ③ 将返回的字符串对象压栈
  *
+ * 【回答之前的疑问】<pre> new String("2") + new String("2"); </pre>
+ * Q: 执行完这段代码，为什么在字符串常量池中没有 "22"?
+ * A: 因为 stringBuilder.toString 时，不会使用 ldc 指令，所以只是在堆中创建一个对象
+ *
  * ==========================
  * https://www.iteye.com/blog/rednaxelafx-774673 (10年的文章，下面的评论比较"激烈"。我对其中 "ldc指令……"的描述有异议)
  */
@@ -33,10 +37,10 @@ public class StringPoolTest {
 
     private static void test1() {
         String s = new String("abc");           // 生成了 2 个对象：字符串常量池中的 "abc" 和 堆中对象. s 指向后者
-        // 0 new
+        // 0 new            - 这里是在堆中创建对象
         // 3 dup
-        // 4 ldc #4 <abc>   - 这里会生成 字符串常量池中的 "abc" 对象
-        // invokespecial    - 这里是生成 堆中对象
+        // 4 ldc #4 <abc>   - 这里会先向 字符串常量池中加入 "abc" 对象
+        // invokespecial
 
         String s1 = "abc";                      // 相当于 new String("abc").intern();             s1 指向前者
         String s2 = new String("abc").intern(); //                                               s2 指向前者
@@ -47,10 +51,10 @@ public class StringPoolTest {
     }
 
     // 运行时常量池一直在方法区 (Method Area), 里面包含了每一个.class文件中的常量池中的内容
-    // 而字符串常量池在 Java 7 之前保存在方法区，在 Java 7 之后保存在堆上
+    // 而【字符串常量池】和【静态变量】在 Java 7 之前保存在方法区，在 Java 7 之后保存在堆上
     private static void test2() {
         String str1 = new String("1");
-        str1.intern();
+        str1.intern(); // 上面 new String("1") 中， ldc 指令已经调用了 intern; 所以这行是没啥用的了。
         String str2 = "1";
         System.out.println(str1 == str2); // false
 
