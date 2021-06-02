@@ -33,6 +33,7 @@ public class StringPoolTest {
         test2();
         //test3();
         //test4();
+        //test5();
     }
 
     private static void test1() {
@@ -86,6 +87,21 @@ public class StringPoolTest {
         System.out.println(str3 == str4);          // false
         System.out.println(str3 == str4.intern()); // true
         System.out.println(str3 == str5);          // true
+    }
+
+    // 两个字符串合并，使用 concat
+    private static void test5() {
+        String str = "abc";
+        String str1 = null;
+        String str2 = "";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(str).append(str1);
+        System.out.println(sb.toString());
+
+        System.out.println(str.concat(str2));
+        System.out.println(str == str.concat(str2));
+        System.out.println(str.concat(str1)); // NullPointerException
     }
 
     private static void seeByteCode() {
